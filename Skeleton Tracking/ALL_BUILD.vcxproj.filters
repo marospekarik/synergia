@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\Bruger\Desktop\cubemos-samples\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="cldnn_global_custom_kernels">
+      <UniqueIdentifier>{25513d7d-8fe3-487d-ad2d-6e4f699268a4}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cldnn_global_custom_kernels\prior_box_clustered.cl">
+      <Filter>cldnn_global_custom_kernels</Filter>
+    </None>
+    <None Include="cldnn_global_custom_kernels\grn.cl">
+      <Filter>cldnn_global_custom_kernels</Filter>
+    </None>
+    <None Include="cldnn_global_custom_kernels\ctc_greedy_decoder.cl">
+      <Filter>cldnn_global_custom_kernels</Filter>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="cldnn_global_custom_kernels\cldnn_global_custom_kernels.xml">
+      <Filter>cldnn_global_custom_kernels</Filter>
+    </Xml>
+  </ItemGroup>
+</Project>

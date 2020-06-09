@@ -1,0 +1,221 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Cubemos.SkeletonTracking</name>
+    </assembly>
+    <members>
+        <member name="T:Cubemos.SkeletonTracking.CM_SKEL_KeypointsBuffer">
+            @addtogroup csharp_skeletontracking
+            @{
+            @cond INTERNAL
+            <summary>
+            Structure for a single skeleton buffer
+            </summary>
+        </member>
+        <member name="F:Cubemos.SkeletonTracking.CM_SKEL_KeypointsBuffer.id">
+            Persistent tracking id
+        </member>
+        <member name="F:Cubemos.SkeletonTracking.CM_SKEL_KeypointsBuffer.numKeyPoints">
+            Number of keypoints (joints)
+        </member>
+        <member name="F:Cubemos.SkeletonTracking.CM_SKEL_KeypointsBuffer.keypoints_coord_x">
+            x in image coordinates
+        </member>
+        <member name="F:Cubemos.SkeletonTracking.CM_SKEL_KeypointsBuffer.keypoints_coord_y">
+            y in image coordinates
+        </member>
+        <member name="F:Cubemos.SkeletonTracking.CM_SKEL_KeypointsBuffer.confidences">
+            confidences
+        </member>
+        <member name="T:Cubemos.SkeletonTracking.CM_SKEL_Buffer">
+            <summary>
+            Structure for the Skeleton Tracking Results containing one or multiple skeletons
+            </summary>
+        </member>
+        <member name="F:Cubemos.SkeletonTracking.CM_SKEL_Buffer.skeletons">
+            Pointer to the skeletons buffer
+        </member>
+        <member name="F:Cubemos.SkeletonTracking.CM_SKEL_Buffer.numSkeletons">
+            Number of detected skeletons
+        </member>
+        <member name="T:Cubemos.SkeletonTracking.CM_SafeSkeletonTrackingHandle">
+            <summary>
+            Wrapper for the C-Api CUBEMOS_SKEL_Handle
+            </summary>
+        </member>
+        <member name="M:Cubemos.SkeletonTracking.CM_SafeSkeletonTrackingHandle.#ctor(System.IntPtr)">
+            <summary>
+            API handle
+            <param name="handle"> [in] pointer to the plugin handle </param>
+            </summary>
+        </member>
+        <member name="T:Cubemos.SkeletonTracking.CM_SkeletonTrackingAsyncRequestHandle">
+            <summary>
+            cubemos skeleton tracking async request handle
+            </summary>
+        </member>
+        <member name="M:Cubemos.SkeletonTracking.CM_SkeletonTrackingAsyncRequestHandle.#ctor(System.IntPtr)">
+            <summary>
+            API handle
+            <param name="handle"> [in] pointer to the async request handle </param>
+            </summary>
+        </member>
+        <member name="T:Cubemos.SkeletonTracking.SkeletonTrackingNativeMethods">
+            <summary>
+            Skeleton Tracking API Methods available to the outside
+            </summary>
+        </member>
+        <member name="T:Cubemos.SkeletonTracking.Api">
+            @endcond
+            <summary>
+            C# Skeleton Tracking Wrapper Class
+            </summary>
+        </member>
+        <member name="F:Cubemos.SkeletonTracking.Api.trackingHistorySkelBuffers">
+            <summary>
+            Structure to store the previous tracking results per pipeline
+            </summary>
+        </member>
+        <member name="F:Cubemos.SkeletonTracking.Api.MaxTrackingHistorySize">
+            <summary>
+            Length of the tracking history. If 1 only the previous result is kept.
+            </summary>
+        </member>
+        <member name="T:Cubemos.SkeletonTracking.Api.Coordinate">
+            <summary>
+            2D Coordinate
+            </summary>
+        </member>
+        <member name="F:Cubemos.SkeletonTracking.Api.Coordinate.x">
+            <summary>
+            X coordinate
+            </summary>
+        </member>
+        <member name="F:Cubemos.SkeletonTracking.Api.Coordinate.y">
+            <summary>
+            y coordinate
+            </summary>
+        </member>
+        <member name="M:Cubemos.SkeletonTracking.Api.Coordinate.#ctor(System.Double,System.Double)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="dXIn"></param>
+            <param name="dYIn"></param>
+        </member>
+        <member name="T:Cubemos.SkeletonTracking.Api.SkeletonKeypoints">
+            <summary>
+            Structure to store the list of the coordinates of the Skeleton Keypoints
+            </summary>
+        </member>
+        <member name="F:Cubemos.SkeletonTracking.Api.SkeletonKeypoints.listJoints">
+            <summary>
+            List of keypoint coordinates in 2D
+            </summary>
+        </member>
+        <member name="F:Cubemos.SkeletonTracking.Api.SkeletonKeypoints.listConfidences">
+            <summary>
+            List of keypoint confidences
+            </summary>
+        </member>
+        <member name="F:Cubemos.SkeletonTracking.Api.SkeletonKeypoints.id">
+            <summary>
+            Skeleton tracking id
+            </summary>
+        </member>
+        <member name="M:Cubemos.SkeletonTracking.Api.#ctor(System.String)">
+            <summary>
+            Constructor of the Skeleton Tracking binding class with an api handle. The Skeleton Tracking API relies on the cubemos Api to load the model and initialize inference pipeline. </summary>
+            <param name = "activationKeyFolder"> [in] The path to the folder containing the activation key file. </param>
+        </member>
+        <member name="M:Cubemos.SkeletonTracking.Api.LoadModel(Cubemos.TargetComputeDevice,System.String)">
+            <summary>
+            Load the required DNN model on to the target compute device </summary>
+            <param name="device"> [in] The target compute device onto which the DNN model shall be loaded </param>
+            <param name="pathToDNNModel"> [in] The path to the requred DNN model </param>
+        </member>
+        <member name="M:Cubemos.SkeletonTracking.Api.CreateAsyncRequestHandle">
+            <summary>
+            Create and initialise a handle for performing an async inference request.
+            The same request can be used to perform inference in a loop
+            </summary>
+            <returns> The initialised CM_AsyncRequestHandle which can be used to perform
+                      async inference and to wait on the result
+            </returns>
+        </member>
+        <member name="M:Cubemos.SkeletonTracking.Api.GetOldestBufferForTracking(System.Int32,Cubemos.SkeletonTracking.CM_SKEL_Buffer@)">
+            <summary>
+            Returns the oldest result buffer form the tracking history for this pipeline  </summary>
+        </member>
+        <member name="M:Cubemos.SkeletonTracking.Api.AddTrackingResultToHistory(System.Int32,Cubemos.SkeletonTracking.CM_SKEL_Buffer@)">
+            <summary>
+            Add a skeleton buffer to a given pipeline history </summary>
+        </member>
+        <member name="M:Cubemos.SkeletonTracking.Api.RunSkeletonTracking(System.Drawing.Bitmap@,System.Int32,System.Collections.Generic.List{Cubemos.SkeletonTracking.Api.SkeletonKeypoints}@,System.Int32)">
+            <summary>
+            Run inference on the given input image </summary>
+            <param name="inputImage"> [in] The input 3 channel BGR image as a bitmap with pixel format of Format24bppRgb </param>
+            <param name="nNetworkHeight"> [in] The desired height of the input blob with which the DNN model
+            should infer the results </param>
+            <param name="skeletons"> [out] The tracked skeletons for this image </param>
+            <param name="pipelineID"> [in] The identifier of the video sequence used to maintain the queue containing previous tracking results.
+            If 0 or missing no tracking history is kept and the skeletons ids are not tracked between frames. </param>
+        </member>
+        <member name="M:Cubemos.SkeletonTracking.Api.RunSkeletonTracking(System.IntPtr,System.Int32,System.Int32,System.Int32,System.Int32,System.Collections.Generic.List{Cubemos.SkeletonTracking.Api.SkeletonKeypoints}@,System.Int32)">
+            <summary>
+            Run inference on the given input image </summary>
+            <param name="inputImage"> [in] The input 3 channel BGR image as bytes buffer with pixel format of Format24bppRgb </param>
+            <param name="imageWidth"> [in] number of columns </param>
+            <param name="imageHeight"> [in] number of rows </param>
+            <param name="imageChannels"> [in] number of channels </param>
+            <param name="nNetworkHeight"> [in] The desired height of the input blob with which the DNN model
+            should infer the results </param>
+            <param name="skeletons"> [out] The tracked skeletons for this image </param>
+            <param name="pipelineID"> [in] The identifier of the video sequence used to maintain the queue containing previous tracking results.
+            If 0 or missing no tracking history is kept and the skeletons ids are not tracked between frames. </param>
+        </member>
+        <member name="M:Cubemos.SkeletonTracking.Api.RunSkeletonTracking(Cubemos.ImageDataWrapper,System.Int32,System.Collections.Generic.List{Cubemos.SkeletonTracking.Api.SkeletonKeypoints}@,System.Int32)">
+            <summary>
+            Run inference on the given input image </summary>
+            <param name="imgWrapper"> [in] The input 3 channel BGR image with bitdepth of 8 bits per channel </param>
+            <param name="nNetworkHeight"> [in] The desired height of the input blob with which the DNN model
+            should infer the results </param>
+            <param name="skeletons"> [out] The tracked skeletons for this image </param>
+            <param name="pipelineID"> [in] The identifier of the video sequence used to maintain the queue containing previous tracking results.
+            If 0 or missing no tracking history is kept and the skeletons ids are not tracked between frames. </param>
+        </member>
+        <member name="M:Cubemos.SkeletonTracking.Api.ClearTrackingHistory(System.Int32)">
+            <summary>
+            Clears tracking history for a given pipeline </summary>
+            <param name="pipelineID"> [in] unique id of the video sequence or acquisition pipeline </param>
+        </member>
+        <member name="M:Cubemos.SkeletonTracking.Api.StartSkeletonTrackingAsync(System.Drawing.Bitmap@,System.Int32,Cubemos.SkeletonTracking.CM_SkeletonTrackingAsyncRequestHandle,System.Int32)">
+             <summary>
+             Request inference on the input image which is readable by the loaded DNN model </summary>
+             <param name="inputImage"> [in] The input image on which the inference has to be requested </param>
+             <param name="nNetworkHeight"> [in] The network height to use when calling on the inference</param>
+             <param name="asyncRequestHandle"> [in] A valid handle to manage the async inference request </param>
+             <param name="pipelineID"> [in] The identifier of the video sequence used to maintain the queue containing previous tracking results.
+             If 0 or missing no tracking history is kept and the skeletons ids are not tracked between frames. </param>
+            
+        </member>
+        <member name="M:Cubemos.SkeletonTracking.Api.WaitForSkeletonResults(Cubemos.SkeletonTracking.CM_SkeletonTrackingAsyncRequestHandle,System.Int32,System.Collections.Generic.List{Cubemos.SkeletonTracking.Api.SkeletonKeypoints}@,System.Int32)">
+            <summary>
+            C# managed call to get the result of the inferences into the output buffer </summary>
+            <param name="asyncRequestHandle"> [in] The async request handle with which the inference request was made
+            </param> <param name="timeout"> [in] The timeout value up to which the function shall block the thread to
+            wait for results. Currently not used. </param>
+            <param name="skeletons"> [out] The output buffer which is initialised with the results of the
+            inference request </param>
+            <param name="pipelineID"> [in] The identifier of the video sequence used to maintain the queue containing previous tracking results.
+            If 0 or missing no tracking history is kept and the skeletons ids are not tracked between frames. </param>
+        </member>
+        <member name="M:Cubemos.SkeletonTracking.Api.DisposeAsyncRequestHandle(Cubemos.SkeletonTracking.CM_SkeletonTrackingAsyncRequestHandle@)">
+            <summary>
+            Dispose the cubemos skeleton tracking async request handle
+            </summary>
+            <param name="asyncRequestHandle"> [in] The async request handle with which the inference request was made
+            </param>
+        </member>
+    </members>
+</doc>

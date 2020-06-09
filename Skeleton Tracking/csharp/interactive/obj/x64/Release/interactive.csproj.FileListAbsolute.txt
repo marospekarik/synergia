@@ -1,0 +1,6 @@
+C:\Users\Bruger\Desktop\cb3\csharp\interactive\obj\x64\Release\interactive.csprojAssemblyReference.cache
+C:\Users\Bruger\Desktop\cb3\csharp\interactive\obj\x64\Release\InfoDialog.baml
+C:\Users\Bruger\Desktop\cb3\csharp\interactive\obj\x64\Release\Window.g.cs
+C:\Users\Bruger\Desktop\cb3\csharp\interactive\obj\x64\Release\InfoDialog.g.cs
+C:\Users\Bruger\Desktop\cb3\csharp\interactive\obj\x64\Release\csharp-interactive_MarkupCompile.cache
+C:\Users\Bruger\Desktop\cb3\csharp\interactive\obj\x64\Release\csharp-interactive_MarkupCompile.lref

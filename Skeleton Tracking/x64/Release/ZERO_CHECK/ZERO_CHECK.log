@@ -1,0 +1,17 @@
+﻿  Checking Build System
+  CMake is re-running because C:/Users/Bruger/Desktop/cb3/CMakeFiles/generate.stamp dependency file is missing.
+  -- Selecting Windows SDK version 10.0.17763.0 to target Windows 10.0.18362.
+  CMake Error at CMakeLists.txt:5 (find_package):
+    Could not find a configuration file for package "CUBEMOS_SKELETON_TRACKING"
+    that is compatible with requested version "".
+  
+    The following configuration files were considered but not accepted:
+  
+      C:/Program Files/Cubemos/SkeletonTracking/lib/cmake/CUBEMOS_SKELETON_TRACKING/CUBEMOS_SKELETON_TRACKINGConfig.cmake, version: 2.3.1 (64bit)
+  
+  
+  
+  -- Configuring incomplete, errors occurred!
+  See also "C:/Users/Bruger/Desktop/cb3/CMakeFiles/CMakeOutput.log".
+  CMake Configure step failed.  Build files cannot be regenerated correctly.  Attempting to stop IDE build.
+C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.CppCommon.targets(209,5): error MSB6006: "cmd.exe" exited with code 1.

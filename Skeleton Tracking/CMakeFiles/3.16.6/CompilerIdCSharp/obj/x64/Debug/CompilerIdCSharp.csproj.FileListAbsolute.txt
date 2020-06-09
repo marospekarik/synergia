@@ -1,0 +1,6 @@
+C:\Users\Bruger\Desktop\cb3\CMakeFiles\3.16.6\CompilerIdCSharp\obj\x64\Debug\CompilerIdCSharp.csprojAssemblyReference.cache
+C:\Users\Bruger\Desktop\cb3\CMakeFiles\3.16.6\CompilerIdCSharp\obj\x64\Debug\CompilerIdCSharp.csproj.CoreCompileInputs.cache
+C:\Users\Bruger\Desktop\cb3\CMakeFiles\3.16.6\CompilerIdCSharp\obj\x64\Debug\CompilerIdCSharp.exe
+C:\Users\Bruger\Desktop\cb3\CMakeFiles\3.16.6\CompilerIdCSharp\obj\x64\Debug\CompilerIdCSharp.pdb
+C:\Users\Bruger\Desktop\cb3\CMakeFiles\3.16.6\CompilerIdCSharp\CompilerIdCSharp.exe
+C:\Users\Bruger\Desktop\cb3\CMakeFiles\3.16.6\CompilerIdCSharp\CompilerIdCSharp.pdb
