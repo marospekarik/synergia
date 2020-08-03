@@ -72,3 +72,7 @@ crashlytics-build.properties
 
 .vscode
 __pycache__
+
+# Ignore costly Unity projects in development for now
+Synergia1/
+Synergia2/
