@@ -1,0 +1,19 @@
+{
+    "name": "FluvioFX.Editor",
+    "references": [
+        "Unity.VisualEffectGraph.Editor",
+        "FluvioFX.ReflectionHelpers"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "FLUVIOFX"
+    ]
+}
