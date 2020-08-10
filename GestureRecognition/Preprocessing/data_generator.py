@@ -1,5 +1,4 @@
 import numpy as np
-import sys
 
 from Preprocessing.data_loader import Loader
 
@@ -20,7 +19,7 @@ class Generator():
                 batches.append(batch)
             yield batches
 
-    def get_traning_batch(self, batch_size=32):
+    def get_traning_batch(self, batch_size=10):
 
         while True:
             if self._train_idx + batch_size > len(self._train_data):
@@ -39,11 +38,14 @@ class Generator():
         x = []
         y = []
         for example in batch:
-            skeleton = example[0]
-            pad = np.ones([max_len-len(skeleton), 14,3]) * -1e9
+            skeleton = example[0]    
+
+            assert skeleton.ndim == 3 #ensure expected shape        
+            pad = np.ones([max_len-skeleton.shape[0], skeleton.shape[1], skeleton.shape[2]]) * -1e9
             padded = np.append(skeleton,pad,axis=0)
             x.append(padded)
             y.append(example[1])
+        
         return np.array(x), np.array(y)
             
 
