@@ -22,7 +22,7 @@ class Generator():
     def get_traning_batch(self, batch_size=10):
 
         while True:
-            if self._train_idx + batch_size > len(self._train_data):
+            if self._train_idx + batch_size >= len(self._train_data):
                 batch = self._train_data[self._train_idx:]
                 self._train_idx = 0
                 np.random.shuffle(self._train_data)
