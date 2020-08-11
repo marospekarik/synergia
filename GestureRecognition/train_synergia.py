@@ -25,7 +25,7 @@ CNN_BLOCKS = 3
 CNN_BLOCK_DIMS = [1,3,1]
 MP_KERNEL_SIZE = 3
 MP_KERNEL_IDX = 2
-CLASSES = ["attract", "clap", "repulsion"]
+CLASSES = ["attract", "clap", "repulsion", "nothing"]
 
 loss_object = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True, reduction='none') 
 learning_rate = CustomSchedule(D_MODEL)
