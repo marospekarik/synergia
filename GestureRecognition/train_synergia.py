@@ -2,6 +2,7 @@ from random import randint
 import numpy as np
 import tensorflow as tf
 import sys
+from functools import reduce
 
 from Preprocessing.data_generator import Generator
 from Models.synergia_classifier import SynergiaClassifier
@@ -14,7 +15,9 @@ generator = Generator(path)
 
 generator.load_data()
 
-EPOCHS = 100
+EPOCHS = 10000
+BATCH_SIZE = 32
+VAL_BATCH_SIZE = 5
 
 D_MODEL = 64
 LSTM_BLOCKS = 1
@@ -45,6 +48,7 @@ train_accuracy = tf.keras.metrics.SparseCategoricalAccuracy(name='train_accuracy
 def train_step(x,y):
     with tf.GradientTape() as tape:
         predictions = model(x)
+
         predictions_t = tf.transpose(predictions, perm=[1,0,2])
         predictions_last_ts = predictions_t[-1]
         
@@ -62,27 +66,56 @@ def train_step(x,y):
     train_loss(loss)
     train_accuracy(y, predictions_last_ts)
 
+def validate():
+
+    val_batches = generator.get_validation_batches(batch_size=VAL_BATCH_SIZE)
+    correct = 0
+    total = 0
+    for (batch_idx, (x,y)) in enumerate(val_batches):
+        
+        x = tf.reshape(x, [x.shape[0], -1, 18])
+        x = tf.constant(x, dtype=tf.float64)
+        y = label_to_int(y)
+        y = tf.constant(y, dtype=tf.int64)
+
+        predictions = model(x)
+        predictions_t = tf.transpose(predictions, perm=[1,0,2])
+        predictions_last_ts = predictions_t[-1]
+        
+        y_pred = tf.math.argmax(predictions_last_ts, axis=1)
+        assert y_pred.shape == y.shape
+        
+        eq_tensor = tf.math.equal(y_pred, y)
+        int_eq_tensor = tf.cast(eq_tensor, tf.int64)
+        result = tf.reduce_sum(int_eq_tensor)
+        correct += result.numpy()
+        total += len(int_eq_tensor)
+    
+    return correct, total
+
 def train():
    
     for epoch in range(EPOCHS):
         train_loss.reset_states()
         train_accuracy.reset_states()
-        batches = next(generator.get_training_batches(number_of_batches=100, batch_size=32))
+        batches = next(generator.get_training_batches(number_of_batches=2, batch_size=BATCH_SIZE))
 
         for (batch_idx, (x,y)) in enumerate(batches):
             
-            x = tf.reshape(x, [32, -1, 18])
+            x = tf.reshape(x, [x.shape[0], -1, 18])
             x = tf.constant(x, dtype=tf.float64)
 
             y = label_to_int(y)
             y = tf.constant(y, dtype=tf.int32)
 
             train_step(x,y)  
-            #print (f'Epoch {epoch + 1} Batch {batch_idx} Loss {train_loss.result():.4f} Accuracy {train_accuracy.result():.4f}', end="\r")    
-        #print()
+        #     print (f'Epoch {epoch + 1} Batch {batch_idx} Loss {train_loss.result():.4f} Accuracy {train_accuracy.result():.4f}', end="\r")    
+        # print()
         loss = train_loss.result()
         acc = train_accuracy.result()
-        print (f'Epoch {epoch + 1} Loss {loss:.4f} Accuracy {acc:.4f}') 
+        
+        val_correct, val_total = validate()
+        print (f'Epoch {epoch + 1} Train loss {loss:.4f} Train accuracy {acc:.4f}, Validation: {val_correct}/{val_total}') 
 
 def label_to_int(labels):
 

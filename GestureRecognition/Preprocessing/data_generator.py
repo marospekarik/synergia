@@ -19,6 +19,27 @@ class Generator():
                 batches.append(batch)
             yield batches
 
+    def get_validation_batches(self, batch_size=32):
+        batches = []
+        while self._val_idx < len(self._validation_data):
+            batch = next(self.get_validation_batch(batch_size))
+            batches.append(batch)
+        self._val_idx = 0
+        return batches
+
+    def get_validation_batch(self, batch_size):
+        while True:
+            if self._val_idx + batch_size >= len(self._validation_data):
+                batch = self._validation_data[self._val_idx:]
+                self._val_idx += len(self._validation_data[self._val_idx:])
+            else:
+                batch = self._validation_data[self._val_idx:self._val_idx + batch_size]
+                self._val_idx += batch_size
+
+            max_len = self._get_max_timestep_length(batch)
+            x,y = self._process_batch(batch, max_len)
+            yield x,y    
+
     def get_traning_batch(self, batch_size=10):
 
         while True:
