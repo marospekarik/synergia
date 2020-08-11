@@ -6,14 +6,11 @@ from functools import reduce
 
 from Preprocessing.data_generator import Generator
 from Models.synergia_classifier import SynergiaClassifier
-from Models.test_model import TestModel
 from Models.CustomSchedule import CustomSchedule
 
 
-path = "./Data/Processed/data.json"
-generator = Generator(path)
-
-generator.load_data()
+DATA_PATH = "./Data/Processed/data.json"
+MODEL_SAVE_PATH = "./TrainedModels/synergia_gesture_classifier.h5"
 
 EPOCHS = 10000
 BATCH_SIZE = 32
@@ -26,6 +23,9 @@ CNN_BLOCK_DIMS = [1,3,1]
 MP_KERNEL_SIZE = 3
 MP_KERNEL_IDX = 2
 CLASSES = ["attract", "clap", "repulsion", "nothing"]
+
+generator = Generator(DATA_PATH)
+generator.load_data()
 
 loss_object = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True, reduction='none') 
 learning_rate = CustomSchedule(D_MODEL)
@@ -71,7 +71,7 @@ def validate():
     val_batches = generator.get_validation_batches(batch_size=VAL_BATCH_SIZE)
     correct = 0
     total = 0
-    for (batch_idx, (x,y)) in enumerate(val_batches):
+    for (x,y) in val_batches:
         
         x = tf.reshape(x, [x.shape[0], -1, 18])
         x = tf.constant(x, dtype=tf.float64)
@@ -95,27 +95,40 @@ def validate():
 
 def train():
    
+    validation_accuracy = 0
+    patience = 100
+    waited = 0
+
     for epoch in range(EPOCHS):
         train_loss.reset_states()
         train_accuracy.reset_states()
         batches = next(generator.get_training_batches(number_of_batches=2, batch_size=BATCH_SIZE))
 
-        for (batch_idx, (x,y)) in enumerate(batches):
+        for (x,y) in batches:
             
             x = tf.reshape(x, [x.shape[0], -1, 18])
             x = tf.constant(x, dtype=tf.float64)
-
             y = label_to_int(y)
             y = tf.constant(y, dtype=tf.int32)
 
             train_step(x,y)  
-        #     print (f'Epoch {epoch + 1} Batch {batch_idx} Loss {train_loss.result():.4f} Accuracy {train_accuracy.result():.4f}', end="\r")    
-        # print()
+
         loss = train_loss.result()
         acc = train_accuracy.result()
         
         val_correct, val_total = validate()
         print (f'Epoch {epoch + 1} Train loss {loss:.4f} Train accuracy {acc:.4f}, Validation: {val_correct}/{val_total}') 
+
+        if val_correct / val_total > validation_accuracy:
+            waited = 0
+            validation_accuracy = val_correct / val_total
+            model.save_weights(MODEL_SAVE_PATH)
+        else:
+            waited += 1
+            if waited > patience:
+                print("Out of patience - exiting...")
+                sys.exit()
+
 
 def label_to_int(labels):
 
