@@ -41,6 +41,8 @@ for c in classes:
             "label":c.lower()
         })
 
+samples = samples * 7
+
 #pricess giberrish
 file_path = "./Data/gibber3.json"
 
@@ -65,8 +67,8 @@ for element in data:
 TIME_WINDOW_SIZE = floor(np.average(lens))
 TIME_WINDOW_STRIDE = TIME_WINDOW_SIZE #no overlap (we have plenty of data)
 
-# for n in range(0, len(sample_data), TIME_WINDOW_STRIDE):
-for n in range(0, 40*TIME_WINDOW_STRIDE, TIME_WINDOW_STRIDE):
+for n in range(0, len(sample_data), TIME_WINDOW_STRIDE):
+# for n in range(0, 40*TIME_WINDOW_STRIDE, TIME_WINDOW_STRIDE):
     if len(sample_data[n:n+TIME_WINDOW_STRIDE]) != TIME_WINDOW_STRIDE:
         continue
     samples.append({

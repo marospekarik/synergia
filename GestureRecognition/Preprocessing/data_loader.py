@@ -5,7 +5,7 @@ from random import randint
 import os
 
 class Loader():
-    def __init__(self, filepath, split = [0.8, 0.2]) -> None:
+    def __init__(self, filepath, split = [0.95, 0.05]) -> None:
         self._filepath = filepath
         assert split[0] + split[1] == 1
         self._train_split = split[0]
