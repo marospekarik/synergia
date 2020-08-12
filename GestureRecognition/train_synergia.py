@@ -9,18 +9,18 @@ from Models.synergia_classifier import SynergiaClassifier
 from Models.CustomSchedule import CustomSchedule
 
 
-DATA_PATH = "./Data/Processed/data.json"
-MODEL_SAVE_PATH = "./TrainedModels/synergia_gesture_classifier.h5"
+DATA_PATH = "./Data/Processed/long_data.json"
+MODEL_SAVE_PATH = "./TrainedModels/synergia_gesture_classifier_long_3LSTM_5CNN.h5"
 
-EPOCHS = 10000
+EPOCHS = 20000
 BATCH_SIZE = 32
 VAL_BATCH_SIZE = 5
 
-D_MODEL = 64
-LSTM_BLOCKS = 1
-CNN_BLOCKS = 3
+D_MODEL = 128
+LSTM_BLOCKS = 3
+CNN_BLOCKS = 5
 CNN_BLOCK_DIMS = [1,3,1]
-MP_KERNEL_SIZE = 3
+MP_KERNEL_SIZE = 2
 MP_KERNEL_IDX = 2
 CLASSES = ["attract", "clap", "repulsion", "nothing"]
 
@@ -105,7 +105,6 @@ def train():
         batches = next(generator.get_training_batches(number_of_batches=2, batch_size=BATCH_SIZE))
 
         for (x,y) in batches:
-            
             x = tf.reshape(x, [x.shape[0], -1, 18])
             x = tf.constant(x, dtype=tf.float64)
             y = label_to_int(y)
@@ -117,7 +116,7 @@ def train():
         acc = train_accuracy.result()
         
         val_correct, val_total = validate()
-        print (f'Epoch {epoch + 1} Train loss {loss:.4f} Train accuracy {acc:.4f}, Validation: {val_correct}/{val_total}') 
+        print (f'Epoch {epoch + 1} Train loss {loss:.4f} Train accuracy {acc:.4f}, Validation: {val_correct}/{val_total} = {val_correct/val_total}') 
 
         if val_correct / val_total > validation_accuracy:
             waited = 0
@@ -126,7 +125,7 @@ def train():
         else:
             waited += 1
             if waited > patience:
-                print("Out of patience - exiting...")
+                print(f"Out of patience - exiting... best validation accuracy: {validation_accuracy}")
                 sys.exit()
 
 
