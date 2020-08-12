@@ -14,7 +14,6 @@ class Synergia:
         self._expected_joints = ["RightShoulder", "RightElbow", "RightWrist", "LeftShoulder", "LeftElbow", "LeftWrist"]
         self._expected_pos = 0
         self._current_time_step = []
-
         self._buffer = Queue(maxsize=buffer_size)
         self._min_buffer_size = min_buffer_size
 
@@ -24,13 +23,13 @@ class Synergia:
 
     def _init_model(self, filename):
         model = SynergiaClassifier(
-            cnn_blocks=3,
+            cnn_blocks=5,
             cnn_block_dims=[1,3,1],
-            cnn_block_filters=64, 
+            cnn_block_filters=128, 
             mp_layer_idx=2, 
-            mp_layer_kernel=3, 
-            blstm_blocks=1, 
-            lstm_block_units=64, 
+            mp_layer_kernel=2, 
+            blstm_blocks=3, 
+            lstm_block_units=128, 
             classes=4)
         
 

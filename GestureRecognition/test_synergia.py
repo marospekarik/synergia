@@ -7,7 +7,7 @@ from pythonosc import dispatcher
 from pythonosc import osc_server
 
 from synergia import Synergia
-synergia = Synergia("./TrainedModels/synergia_gesture_classifier.h5")
+synergia = Synergia("./TrainedModels/synergia_gesture_classifier_long_3LSTM_5CNN.h5")
 
 with open("./Data/Attract/sample1.json") as f:
 # with open("./Data/Clap/clap1.json") as f:    
